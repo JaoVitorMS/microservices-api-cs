@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+
+      routes:
+        - id: estudante-service
+          uri: lb://estudante-service
+          predicates:
+            - Path=/estudantes/**
+
+        - id: curso-service
+          uri: lb://curso-service
+          predicates:
+            - Path=/cursos/**
+
+        - id: matricula-service
+          uri: lb://matricula-service
+          predicates:
+            - Path=/matriculas/**
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
