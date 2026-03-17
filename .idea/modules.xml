@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/curso-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/curso-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/estudante-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/estudante-service.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/matricula-service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/matricula-service.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/microservices-api-cs.iml" filepath="$PROJECT_DIR$/.idea/microservices-api-cs.iml" />
     </modules>
   </component>

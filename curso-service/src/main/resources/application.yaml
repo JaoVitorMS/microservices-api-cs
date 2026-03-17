@@ -32,3 +32,10 @@ management:
 
 server:
   port: 8082
+
+scalar:
+  enabled: true
+  url: http://localhost:8082/v3/api-docs
+  dark-mode: true
+  path: /docs
+  theme: deep_space
