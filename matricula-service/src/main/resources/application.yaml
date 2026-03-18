@@ -22,10 +22,30 @@ spring:
     openfeign:
       client:
         config:
-            default:
-                connect-timeout: 5000
-                read-timeout: 5000
-                logger-level: full
+          default:
+            connect-timeout: 5000
+            read-timeout: 5000
+            logger-level: basic
+          curso-service:
+            connect-timeout: 3000
+            read-timeout: 5000
+          estudante-service:
+            connect-timeout: 3000
+            read-timeout: 5000
+
+  main:
+    allow-bean-definition-overriding: true
+
+integration:
+  services:
+    curso:
+      name: curso-service
+      endpoints:
+        disponiveis: /cursos/disponiveis
+    estudante:
+      name: estudante-service
+      endpoints:
+        disponiveis: /estudantes/disponiveis
 eureka:
   client:
     service-url:
@@ -39,3 +59,10 @@ management:
 
 server:
   port: 8083
+
+scalar:
+  enabled: true
+  url: http://localhost:8083/v3/api-docs
+  dark-mode: true
+  path: /docs
+  theme: deep_space
