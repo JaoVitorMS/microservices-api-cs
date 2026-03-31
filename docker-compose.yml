@@ -1,8 +1,23 @@
 services:
+  config-server:
+    build:
+      context: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8888/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
   discovery-server:
     build:
       context: ./discovery-server
     container_name: discovery-server
+    environment:
+      CONFIG_SERVER_URL: http://config-server:8888
     ports:
       - "8761:8761"
     healthcheck:
@@ -11,111 +26,123 @@ services:
       timeout: 5s
       retries: 12
       start_period: 20s
+    depends_on:
+      config-server:
+        condition: service_healthy
 
-  estudante-db:
+  cliente-db:
     image: postgres:16-alpine
-    container_name: estudante-db
+    container_name: cliente-db
     environment:
-      POSTGRES_DB: estudante_db
+      POSTGRES_DB: cliente_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - estudante-db-data:/var/lib/postgresql/data
+      - cliente-db-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d estudante_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cliente_db"]
       interval: 10s
       timeout: 5s
       retries: 10
 
-  curso-db:
+  peca-db:
     image: postgres:16-alpine
-    container_name: curso-db
+    container_name: peca-db
     environment:
-      POSTGRES_DB: curso_db
+      POSTGRES_DB: peca_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - curso-db-data:/var/lib/postgresql/data
+      - peca-db-data:/var/lib/postgresql/data
     ports:
       - "5434:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d curso_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d peca_db"]
       interval: 10s
       timeout: 5s
       retries: 10
 
-  matricula-db:
+  representante-db:
     image: postgres:16-alpine
-    container_name: matricula-db
+    container_name: representante-db
     environment:
-      POSTGRES_DB: matricula_db
+      POSTGRES_DB: representante_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - matricula-db-data:/var/lib/postgresql/data
+      - representante-db-data:/var/lib/postgresql/data
     ports:
       - "5435:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d matricula_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d representante_db"]
       interval: 10s
       timeout: 5s
       retries: 10
 
-  estudante-service:
+  cliente-service:
     build:
-      context: ./estudante-service
-    container_name: estudante-service
+      context: ./cliente-service
+    container_name: cliente-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://estudante-db:5432/estudante_db
+      CONFIG_SERVER_URL: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://cliente-db:5432/cliente_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     ports:
       - "8081:8081"
     depends_on:
+      config-server:
+        condition: service_healthy
       discovery-server:
         condition: service_healthy
-      estudante-db:
+      cliente-db:
         condition: service_healthy
 
-  curso-service:
+  peca-service:
     build:
-      context: ./curso-service
-    container_name: curso-service
+      context: ./peca-service
+    container_name: peca-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://curso-db:5432/curso_db
+      CONFIG_SERVER_URL: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://peca-db:5432/peca_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     ports:
       - "8082:8082"
     depends_on:
+      config-server:
+        condition: service_healthy
       discovery-server:
         condition: service_healthy
-      curso-db:
+      peca-db:
         condition: service_healthy
 
-  matricula-service:
+  representante-service:
     build:
-      context: ./matricula-service
-    container_name: matricula-service
+      context: ./representante-service
+    container_name: representante-service
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://matricula-db:5432/matricula_db
+      CONFIG_SERVER_URL: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://representante-db:5432/representante_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     ports:
       - "8083:8083"
     depends_on:
+      config-server:
+        condition: service_healthy
       discovery-server:
         condition: service_healthy
-      matricula-db:
+      representante-db:
         condition: service_healthy
-      estudante-service:
+      cliente-service:
         condition: service_started
-      curso-service:
+      peca-service:
         condition: service_started
 
   api-gateway:
@@ -123,20 +150,23 @@ services:
       context: ./api-gateway
     container_name: api-gateway
     environment:
+      CONFIG_SERVER_URL: http://config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
     ports:
       - "8080:8080"
     depends_on:
+      config-server:
+        condition: service_healthy
       discovery-server:
         condition: service_healthy
-      estudante-service:
+      cliente-service:
         condition: service_started
-      curso-service:
+      peca-service:
         condition: service_started
-      matricula-service:
+      representante-service:
         condition: service_started
 
 volumes:
-  estudante-db-data:
-  curso-db-data:
-  matricula-db-data:
+  cliente-db-data:
+  peca-db-data:
+  representante-db-data:
