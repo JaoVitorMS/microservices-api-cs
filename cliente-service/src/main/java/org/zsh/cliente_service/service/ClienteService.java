@@ -1,5 +1,6 @@
 package org.zsh.cliente_service.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.zsh.cliente_service.dto.ClienteDto;
 import org.zsh.cliente_service.dto.ClienteResponse;
@@ -9,13 +10,10 @@ import org.zsh.cliente_service.repository.ClienteRepository;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
-
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
 
     public ClienteResponse cadastrar(ClienteDto dto) {
         if (clienteRepository.findByCpf(dto.cpf()).isPresent()) {

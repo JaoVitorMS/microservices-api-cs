@@ -1,6 +1,7 @@
 package org.zsh.cliente_service.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
+@AllArgsConstructor
 public class ClienteController {
 
     private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,16 +31,19 @@ public class ClienteController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.FOUND)
     public List<ClienteResponse> listarTodos() {
         return clienteService.listarTodos();
     }
 
     @GetMapping("/cpf/{cpf}")
+    @ResponseStatus(HttpStatus.FOUND)
     public ClienteResponse buscarPorCpf(@PathVariable String cpf) {
         return clienteService.buscarPorCpf(cpf);
     }
 
     @GetMapping("/nome")
+    @ResponseStatus(HttpStatus.FOUND)
     public List<ClienteResponse> buscarPorNome(@RequestParam("valor") String nome) {
         return clienteService.buscarPorNome(nome);
     }
