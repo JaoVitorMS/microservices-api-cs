@@ -5,3 +5,10 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+
+scalar:
+  enabled: true
+  url: /v3/api-docs
+  dark-mode: true
+  path: /docs
+  theme: deep_space

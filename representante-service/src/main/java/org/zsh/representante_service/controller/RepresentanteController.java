@@ -33,19 +33,19 @@ public class RepresentanteController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<RepresentanteResponse> listarTodos() {
         return representanteService.listarTodos();
     }
 
     @GetMapping("/cpf/{cpf}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public RepresentanteResponse buscarPorCpf(@PathVariable String cpf) {
         return representanteService.buscarPorCpf(cpf);
     }
 
     @GetMapping("/nome")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<RepresentanteResponse> buscarPorNome(@RequestParam("valor") String nome) {
         return representanteService.buscarPorNome(nome);
     }
@@ -54,5 +54,11 @@ public class RepresentanteController {
     @ResponseStatus(HttpStatus.CREATED)
     public AlocacaoResponse alocarPeca(@Valid @RequestBody AlocacaoRequest request) {
         return representanteService.alocarPecaParaCliente(request);
+    }
+
+    @GetMapping("/alocacoes")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AlocacaoResponse> listarTodasAlocacoes() {
+        return representanteService.listarTodasAlocacoes();
     }
 }

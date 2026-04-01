@@ -1,6 +1,7 @@
 package org.zsh.peca_service.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,13 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pecas")
+@AllArgsConstructor
 public class PecaController {
 
     private final PecaService pecaService;
-
-    public PecaController(PecaService pecaService) {
-        this.pecaService = pecaService;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -35,21 +35,21 @@ public class ClienteController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Listar todos os clientes", description = "Retorna uma lista com todos os clientes cadastrados.")
     public List<ClienteResponse> listarTodos() {
         return clienteService.listarTodos();
     }
 
     @GetMapping("/cpf/{cpf}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar cliente por CPF", description = "Retorna os detalhes de um cliente específico através do seu CPF.")
     public ClienteResponse buscarPorCpf(@PathVariable String cpf) {
         return clienteService.buscarPorCpf(cpf);
     }
 
     @GetMapping("/nome")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Buscar clientes por nome", description = "Retorna uma lista de clientes cujo nome contém o valor informado.")
     public List<ClienteResponse> buscarPorNome(@RequestParam("valor") String nome) {
         return clienteService.buscarPorNome(nome);

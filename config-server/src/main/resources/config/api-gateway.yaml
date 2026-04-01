@@ -4,24 +4,29 @@ server:
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          lower-case-service-id: true
-      routes:
-        - id: cliente-service
-          uri: lb://cliente-service
-          predicates:
-            - Path=/clientes/**
-        - id: peca-service
-          uri: lb://peca-service
-          predicates:
-            - Path=/pecas/**
-        - id: representante-service
-          uri: lb://representante-service
-          predicates:
-            - Path=/representantes/**
       server:
         webflux:
           discovery:
             locator:
               enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: cliente-service
+              uri: lb://cliente-service
+              predicates:
+                - Path=/clientes/**
+            - id: peca-service
+              uri: lb://peca-service
+              predicates:
+                - Path=/pecas/**
+            - id: representante-service
+              uri: lb://representante-service
+              predicates:
+                - Path=/representantes/**
+
+scalar:
+  enabled: true
+  url: /v3/api-docs
+  dark-mode: true
+  path: /docs
+  theme: deep_space
