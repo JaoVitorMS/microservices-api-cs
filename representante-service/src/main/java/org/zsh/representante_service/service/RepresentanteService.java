@@ -1,6 +1,7 @@
 package org.zsh.representante_service.service;
 
 import feign.FeignException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.zsh.representante_service.client.ClienteClient;
 import org.zsh.representante_service.client.PecaClient;
@@ -17,24 +18,13 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class RepresentanteService {
 
     private final RepresentanteRepository representanteRepository;
     private final AlocacaoRepository alocacaoRepository;
     private final ClienteClient clienteClient;
     private final PecaClient pecaClient;
-
-    public RepresentanteService(
-            RepresentanteRepository representanteRepository,
-            AlocacaoRepository alocacaoRepository,
-            ClienteClient clienteClient,
-            PecaClient pecaClient
-    ) {
-        this.representanteRepository = representanteRepository;
-        this.alocacaoRepository = alocacaoRepository;
-        this.clienteClient = clienteClient;
-        this.pecaClient = pecaClient;
-    }
 
     public RepresentanteResponse cadastrar(RepresentanteDto dto) {
         if (representanteRepository.findByCpf(dto.cpf()).isPresent()) {
@@ -99,5 +89,22 @@ public class RepresentanteService {
 
     private RepresentanteResponse toResponse(RepresentanteModel model) {
         return new RepresentanteResponse(model.getId(), model.getCpf(), model.getNome());
+    }
+
+    public List<AlocacaoResponse> listarTodasAlocacoes(){
+        return alocacaoRepository.findAll()
+                .stream()
+                .map(this::toAlocacaoResponse)
+                .toList();
+    }
+
+    private AlocacaoResponse toAlocacaoResponse(AlocacaoModel model){
+        return new AlocacaoResponse(
+                model.getId(),
+                model.getCpfRepresentante(),
+                model.getCpfCliente(),
+                model.getIdPeca(),
+                model.getDataHora()
+        );
     }
 }

@@ -6,9 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "representantes")
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class RepresentanteModel {
 
     @Id
@@ -21,23 +27,4 @@ public class RepresentanteModel {
     @Column(nullable = false)
     private String nome;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 }
