@@ -24,8 +24,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server")
+<<<<<<< HEAD
 	implementation("org.slf4j:slf4j-api:2.0.17")
 	implementation("io.micrometer:micrometer-registry-prometheus:1.16.4")
+=======
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+	implementation("jakarta.servlet:jakarta.servlet-api:6.1.0")
+	implementation("com.scalar.maven:scalar:0.4.3")
+>>>>>>> 8c27eb803ecf38ee0913ab81cf7f3495d6f9606f
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

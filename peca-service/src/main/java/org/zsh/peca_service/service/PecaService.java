@@ -1,5 +1,6 @@
 package org.zsh.peca_service.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.zsh.peca_service.dto.PecaDto;
 import org.zsh.peca_service.dto.PecaResponse;
@@ -9,13 +10,10 @@ import org.zsh.peca_service.repository.PecaRepository;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PecaService {
 
     private final PecaRepository pecaRepository;
-
-    public PecaService(PecaRepository pecaRepository) {
-        this.pecaRepository = pecaRepository;
-    }
 
     public PecaResponse cadastrar(PecaDto dto) {
         if (pecaRepository.existsById(dto.id())) {
