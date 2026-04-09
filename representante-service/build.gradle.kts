@@ -36,6 +36,8 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.16")
 	implementation("com.scalar.maven:scalar:0.4.3")
+	implementation("org.slf4j:slf4j-api:2.0.17")
+	implementation("io.micrometer:micrometer-registry-prometheus:1.16.4")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
