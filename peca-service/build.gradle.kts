@@ -27,6 +27,7 @@ repositories {
 extra["springCloudVersion"] = "2025.0.1"
 
 dependencies {
+	testImplementation("org.mockito:mockito-core")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -41,6 +42,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testRuntimeOnly("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -52,4 +54,8 @@ dependencyManagement {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	val mockitoAgent = configurations.testRuntimeClasspath.get().find { it.name.contains("mockito-core") }
+	if (mockitoAgent != null) {
+		jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
+	}
 }

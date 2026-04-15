@@ -3,38 +3,13 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  - job_name: config-server
+  - job_name: 'microservices'
     metrics_path: /actuator/prometheus
     static_configs:
       - targets:
-          - config-server:8888
-
-  - job_name: discovery-server
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - discovery-server:8761
-
-  - job_name: api-gateway
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - api-gateway:8080
-
-  - job_name: cliente-service
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - cliente-service:8081
-
-  - job_name: peca-service
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - peca-service:8082
-
-  - job_name: representante-service
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets:
-          - representante-service:8083
+          - 'config-server:8888'
+          - 'discovery-server:8761'
+          - 'api-gateway:8080'
+          - 'cliente-service:8081'
+          - 'peca-service:8082'
+          - 'representante-service:8083'

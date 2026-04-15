@@ -41,6 +41,8 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.mockito:mockito-core")
+	testRuntimeOnly("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -52,4 +54,8 @@ dependencyManagement {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	val mockitoAgent = configurations.testRuntimeClasspath.get().find { it.name.contains("mockito-core") }
+	if (mockitoAgent != null) {
+		jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
+	}
 }
