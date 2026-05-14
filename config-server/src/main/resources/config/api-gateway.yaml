@@ -2,6 +2,12 @@ server:
   port: 8080
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/microservices-cs
+          jwk-set-uri: ${KEYCLOAK_URL:http://localhost:8180}/realms/microservices-cs/protocol/openid-connect/certs
   cloud:
     gateway:
       server:
@@ -15,14 +21,20 @@ spring:
               uri: lb://cliente-service
               predicates:
                 - Path=/clientes/**
+              filters:
+                - TokenRelay=
             - id: peca-service
               uri: lb://peca-service
               predicates:
                 - Path=/pecas/**
+              filters:
+                - TokenRelay=
             - id: representante-service
               uri: lb://representante-service
               predicates:
                 - Path=/representantes/**
+              filters:
+                - TokenRelay=
 
 scalar:
   enabled: true
