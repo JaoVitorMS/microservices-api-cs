@@ -43,7 +43,10 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+<<<<<<< HEAD
 	testImplementation("org.springframework.security:spring-security-test")
+=======
+>>>>>>> 6f28e2493879f0f24173905661c15dc7b810b687
 	testImplementation("org.mockito:mockito-core")
 	testRuntimeOnly("com.h2database:h2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
